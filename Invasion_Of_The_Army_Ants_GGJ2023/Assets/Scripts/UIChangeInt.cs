@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UIChangeInt : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class UIChangeInt : MonoBehaviour
     
     public void ChangeInt(int newNum)
     {
-        GetComponent<Text>().text = newNum.ToString();
+        GetComponent<TextMeshProUGUI>().text = newNum.ToString();
         GetComponent<SpringDynamics>().React(reactionForce);
     }
 }
