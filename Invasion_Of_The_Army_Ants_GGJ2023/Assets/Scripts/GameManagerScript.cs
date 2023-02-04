@@ -78,8 +78,8 @@ public class GameManagerScript : MonoBehaviour
 
         float inverseRound = a_round / int.MaxValue;
         wave.spawnSpeed = spawnRateCurve.Evaluate(inverseRound) * spawnRateMult;
-        wave.numAntsToSpawn = int.MaxValue;
-        wave.spawnSpeed = 0.1f;
+        //wave.numAntsToSpawn = int.MaxValue;
+        //wave.spawnSpeed = 0.1f;
         return wave;
     }
 
