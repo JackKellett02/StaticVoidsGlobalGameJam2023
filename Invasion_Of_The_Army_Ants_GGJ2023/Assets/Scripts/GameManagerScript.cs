@@ -37,6 +37,11 @@ public class GameManagerScript : MonoBehaviour
 
     [SerializeField]
     private UIBarScale healthBar = null;
+
+    [SerializeField]
+    private MenuHandler menuFade = null;
+
+    private static MenuHandler menuFader = null;
     #endregion
 
     #region Private Variables.
@@ -72,6 +77,7 @@ public class GameManagerScript : MonoBehaviour
         moneyStuff[1].ChangeInt((int)moneyCount);
         currentRound = 1;
         timerBarScale.maxBarValue = timeBetweenWaves;
+        menuFader = menuFade;
     }
 
     // Update is called once per frame
@@ -144,7 +150,7 @@ public class GameManagerScript : MonoBehaviour
     private IEnumerator ReloadScene()
     {
         Debug.Log("STARTING RELOAD SCENE IN 3 SECS");
-        yield return new WaitForSeconds(5.0f);
+        yield return new WaitForSeconds(4.0f);
         SceneManager.LoadScene(0);
     }
     #endregion
@@ -205,7 +211,7 @@ public class GameManagerScript : MonoBehaviour
     {
         Debug.Log("GAME OVER");
         //Put UI shit here.
-
+        menuFader.screenFading = true;
 
         //Reload scene after 3 seconds.
         playGameOver = true;
