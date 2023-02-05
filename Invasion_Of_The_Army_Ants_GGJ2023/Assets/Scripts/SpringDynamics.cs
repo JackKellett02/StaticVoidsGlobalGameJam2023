@@ -100,6 +100,15 @@ public class SpringDynamics : MonoBehaviour
     }
 
     /// <summary>
+    /// Works identically to react, but changes the size instead of the position.
+    /// </summary>
+    /// <param name="force"></param>
+    public void SizeReact(float force)
+    {
+        sizeVelocity += Vector2.one * force * 250;
+    }
+
+    /// <summary>
     /// This function simply makes the UI element jump upwards based on the parameter entered by changing the velocity.
     /// </summary>
     /// <param name="force"></param>
