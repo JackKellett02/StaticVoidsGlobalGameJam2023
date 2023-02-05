@@ -4899,6 +4899,10 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3730697448631857449, guid: aac0179987e197c4c82924265c8fd835, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: ed9fac9b8f8a2a4418471d749854314d, type: 3}
     - target: {fileID: 3730697449059085179, guid: aac0179987e197c4c82924265c8fd835, type: 3}
       propertyPath: Loop
       value: 1
@@ -4906,7 +4910,7 @@ PrefabInstance:
     - target: {fileID: 3730697449059085179, guid: aac0179987e197c4c82924265c8fd835, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 7f69a3d7829e709428c6b0454dd95659, type: 3}
+      objectReference: {fileID: 8300000, guid: 319d4c6d83124d441ba6c8df87222b55, type: 3}
     - target: {fileID: 3730697449321163040, guid: aac0179987e197c4c82924265c8fd835, type: 3}
       propertyPath: appleAOE
       value: 
