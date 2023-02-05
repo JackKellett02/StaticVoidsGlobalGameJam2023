@@ -85,6 +85,7 @@ public class ShooterPlantScript : MonoBehaviour
         //Find the smallest distance.
         Vector3 towerPos = this.transform.position;
         float smallestDistance = float.MaxValue;
+        int ival = 0;
         for (int i = 0; i < ants.Length; i++)
         {
             //Get the distance between the ant and that defence point.
@@ -92,7 +93,10 @@ public class ShooterPlantScript : MonoBehaviour
             if (newDistance < smallestDistance)
             {
                 smallestDistance = newDistance;
+                ival = i;
+                Rigidbody rb = ants[ival].GetComponent<Rigidbody>();
                 returnVal = ants[i].transform.position;
+                returnVal += rb.velocity;
             }
         }
 

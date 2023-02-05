@@ -114,7 +114,7 @@ public class GameManagerScript : MonoBehaviour
         AntSpawnerScript.Wave wave;
         wave.numAntsToSpawn = a_round * 5;
 
-        float inverseRound = a_round / int.MaxValue;
+        float inverseRound = a_round / 100;
         wave.spawnSpeed = spawnRateCurve.Evaluate(inverseRound) * spawnRateMult;
         //wave.numAntsToSpawn = int.MaxValue;
         //wave.spawnSpeed = 0.1f;

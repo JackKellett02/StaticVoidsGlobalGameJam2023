@@ -115,7 +115,7 @@ Transform:
   m_Children:
   - {fileID: 1340923176306531974}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2989593233447293260
 MonoBehaviour:
@@ -130,7 +130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towerRange: 3
-  bulletSpeed: 1
+  bulletSpeed: 3
   bulletsPerSec: 1
   bulletPrefab: {fileID: 2719402544836661212, guid: edf99eafc8be40a43820b2984707d1c5, type: 3}
   spriteTransform: {fileID: 1340923176306531974}
