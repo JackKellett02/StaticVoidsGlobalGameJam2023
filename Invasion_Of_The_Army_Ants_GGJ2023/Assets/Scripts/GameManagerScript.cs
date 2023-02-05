@@ -21,6 +21,9 @@ public class GameManagerScript : MonoBehaviour
 
     [SerializeField]
     private AnimationCurve spawnRateCurve;
+
+    [SerializeField]
+    private AudioManagerScript audioManager = null;
     #endregion
 
     #region Private Variables.
@@ -92,6 +95,10 @@ public class GameManagerScript : MonoBehaviour
             timeBeforeNextRound--;
         }
 
+        //Play music.
+        StartCoroutine(audioManager.StartRoundMusic(true));
+
+        //Fire off round starting event.
         roundStarting?.Invoke(this, EventArgs.Empty);
         AntSpawnerScript.StartWave(GenerateWaveFromRoundNumber(currentRound));
     }
@@ -116,6 +123,9 @@ public class GameManagerScript : MonoBehaviour
         Debug.Log("Round " + currentRound + " over.");
         //Increment round counter.
         currentRound++;
+
+        //Switch music.
+        StartCoroutine(audioManager.StartRoundMusic(false));
 
         //Show upgrades UI.
 
