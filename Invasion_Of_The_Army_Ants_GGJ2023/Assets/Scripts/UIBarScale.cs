@@ -6,8 +6,7 @@ using UnityEngine.UI;
 
 public class UIBarScale : MonoBehaviour
 {
-    [SerializeField]
-    private float maxBarValue;
+    public float maxBarValue;
     public float currentBarValue;
     private RectTransform thisRect;
     private Vector2 startSize;

@@ -14,6 +14,9 @@ public class CursorScript : MonoBehaviour
     [SerializeField]
     private GameObject tower;
 
+    [SerializeField]
+    private int towerCost = 10;
+
     private bool holding = false;
     private Vector2 startPos;
 
@@ -23,6 +26,7 @@ public class CursorScript : MonoBehaviour
     void Start()
     {
         startPos = GetComponent<RectTransform>().position;
+        ShooterPlantFollowMouse.ShowPlant(false);
         cursorShadow.enabled = false;
         cursor.enabled = false;
         Debug.Log(startPos);
@@ -31,31 +35,41 @@ public class CursorScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        cursorShadow.rectTransform.localPosition = Input.mousePosition + offset;
-        
-        if (Vector2.Distance(cursorShadow.rectTransform.position,Vector2.zero) < distanceFromMiddle || Vector2.Distance(cursorShadow.rectTransform.position, startPos) < 2.0f)
+        //cursorShadow.rectTransform.position = Input.mousePosition + offset;
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 0, 10.0f);
+        Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
+
+        if (Vector2.Distance(mousePos2D, Vector2.zero) < distanceFromMiddle || Vector2.Distance(mousePos2D, startPos) < 2.0f)
         {
-            cursor.color = new Color(0.7f,0.7f,0.7f);
-            cursorShadow.rectTransform.localScale = Vector3.one * 0.93f;
+            ShooterPlantFollowMouse.SetTargetColour(new Color(0.7f, 0.7f, 0.7f));
+            ShooterPlantFollowMouse.SetSize(Vector3.one * 0.93f);
         }
         else
         {
-            cursor.color = Color.white;
-            cursorShadow.rectTransform.localScale = Vector3.one;
-            if (Input.GetMouseButtonDown(0))
+            ShooterPlantFollowMouse.SetTargetColour(Color.white);
+
+            ShooterPlantFollowMouse.SetSize(Vector3.one);
+            if (Input.GetMouseButtonDown(0) && holding)
             {
                 holding = false;
                 cursorShadow.enabled = false;
                 cursor.enabled = false;
-                Instantiate(tower, Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0,0,10.0f), Quaternion.identity);
+                Instantiate(tower, mousePos, Quaternion.identity);
+
+                ShooterPlantFollowMouse.ShowPlant(false);
             }
         }
     }
 
     public void PickUp()
     {
-        holding = true;
-        cursorShadow.enabled = true;
-        cursor.enabled = true;
+        if (GameManagerScript.GetMoneyCount() >= towerCost)
+        {
+            holding = true;
+            ShooterPlantFollowMouse.ShowPlant(true);
+            GameManagerScript.ReduceMoneyPlz(towerCost);
+            //cursorShadow.enabled = true;
+            //cursor.enabled = true;
+        }
     }
 }

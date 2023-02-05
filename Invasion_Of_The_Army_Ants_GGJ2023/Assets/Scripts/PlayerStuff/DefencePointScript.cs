@@ -23,7 +23,7 @@ public class DefencePointScript : MonoBehaviour
     {
         health.OnStart();
         health.AddDeathActions(OnDeath);
-        totalSystemHealth += health.GetCurrentHealth();
+        totalSystemHealth += health.GetTotalHealth();
         currentSystemHealth += health.GetCurrentHealth();
     }
 
@@ -54,8 +54,8 @@ public class DefencePointScript : MonoBehaviour
 
         //Apply damage to defence point.
         health.DamageEntity(ant.GetAntDamage());
-        totalSystemHealth -= ant.GetAntDamage();
-        totalSystemHealth = Mathf.Clamp(totalSystemHealth, 0.0f, totalSystemHealth);
+        currentSystemHealth -= ant.GetAntDamage();
+        currentSystemHealth = Mathf.Clamp(currentSystemHealth, 0.0f, currentSystemHealth);
     }
 
     private void OnValidate()

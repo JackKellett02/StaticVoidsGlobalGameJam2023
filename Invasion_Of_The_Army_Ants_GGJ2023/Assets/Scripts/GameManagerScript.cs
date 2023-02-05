@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.SceneManagement;
 
 public class GameManagerScript : MonoBehaviour
 {
@@ -24,13 +25,29 @@ public class GameManagerScript : MonoBehaviour
 
     [SerializeField]
     private AudioManagerScript audioManager = null;
+
+    [SerializeField]
+    private List<UIChangeInt> moneyStuff = new List<UIChangeInt>();
+
+    [SerializeField]
+    private SpringDynamics timerBar = null;
+
+    [SerializeField]
+    private UIBarScale timerBarScale = null;
+
+    [SerializeField]
+    private UIBarScale healthBar = null;
     #endregion
 
     #region Private Variables.
     private static float moneyCount;
+    private static List<UIChangeInt> moneyStuff2;
     private int currentRound = 1;
 
     private static int timeBeforeNextRound = 0;
+
+    private bool firstFrame = true;
+    private static bool playGameOver = false;
     #endregion
 
     #region Events
@@ -46,18 +63,36 @@ public class GameManagerScript : MonoBehaviour
         AntSpawnerScript.roundOver += OnRoundOver;
 
         //Set up variables.
-        timeBeforeNextRound = 10;
-        moneyCount = 0;
+        playGameOver = false;
+        timeBeforeNextRound = (int)timeBetweenWaves;
+        timerBarScale.currentBarValue = timeBeforeNextRound;
+        moneyCount = startingMoney;
+        moneyStuff2 = moneyStuff;
+        moneyStuff[0].ChangeInt((int)moneyCount);
+        moneyStuff[1].ChangeInt((int)moneyCount);
         currentRound = 1;
-
-        //Start timer.
-        StartCoroutine(NextWaveCoolTimer());
+        timerBarScale.maxBarValue = timeBetweenWaves;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (firstFrame)
+        {
+            healthBar.maxBarValue = DefencePointScript.GetSystemMaxHealth();
+            healthBar.currentBarValue = DefencePointScript.GetSystemCurrentHealth();
+            firstFrame = false;
+            //Start timer.
+            StartCoroutine(NextWaveCoolTimer());
+        }
 
+        healthBar.currentBarValue = DefencePointScript.GetSystemCurrentHealth();
+
+        if (playGameOver)
+        {
+            playGameOver = false;
+            StartCoroutine(ReloadScene());
+        }
     }
 
     private void OnDisable()
@@ -88,11 +123,13 @@ public class GameManagerScript : MonoBehaviour
 
     private IEnumerator NextWaveCoolTimer()
     {
-        while(timeBeforeNextRound > 0)
+        timerBar.SwitchPos();
+        while (timeBeforeNextRound > 0)
         {
             //Debug.Log(timeBeforeNextRound + " seconds left.");
             yield return new WaitForSeconds(1.0f);
             timeBeforeNextRound--;
+            timerBarScale.currentBarValue = timeBeforeNextRound;
         }
 
         //Play music.
@@ -100,7 +137,15 @@ public class GameManagerScript : MonoBehaviour
 
         //Fire off round starting event.
         roundStarting?.Invoke(this, EventArgs.Empty);
+        timerBar.SwitchPos();
         AntSpawnerScript.StartWave(GenerateWaveFromRoundNumber(currentRound));
+    }
+
+    private IEnumerator ReloadScene()
+    {
+        Debug.Log("STARTING RELOAD SCENE IN 3 SECS");
+        yield return new WaitForSeconds(5.0f);
+        SceneManager.LoadScene(0);
     }
     #endregion
 
@@ -111,6 +156,8 @@ public class GameManagerScript : MonoBehaviour
         {
             //Add points to resources.
             moneyCount += resourcesPerAntKilled;
+            moneyStuff[0].ChangeInt((int)moneyCount);
+            moneyStuff[1].ChangeInt((int)moneyCount);
         }
         else
         {
@@ -131,6 +178,7 @@ public class GameManagerScript : MonoBehaviour
 
         //Start Timer for next round.
         timeBeforeNextRound = timeBetweenWaves;
+        timerBarScale.currentBarValue = timeBeforeNextRound;
         StartCoroutine(NextWaveCoolTimer());
     }
     #endregion
@@ -146,10 +194,21 @@ public class GameManagerScript : MonoBehaviour
         return moneyCount;
     }
 
+    public static void ReduceMoneyPlz(float money)
+    {
+        moneyCount = Mathf.Clamp(moneyCount - money, 0.0f, float.MaxValue);
+        moneyStuff2[0].ChangeInt((int)moneyCount);
+        moneyStuff2[1].ChangeInt((int)moneyCount);
+    }
 
     public static void HandleGameOver()
     {
         Debug.Log("GAME OVER");
+        //Put UI shit here.
+
+
+        //Reload scene after 3 seconds.
+        playGameOver = true;
     }
     #endregion
 }
