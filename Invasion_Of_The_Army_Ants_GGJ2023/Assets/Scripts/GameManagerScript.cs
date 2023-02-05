@@ -41,6 +41,9 @@ public class GameManagerScript : MonoBehaviour
     [SerializeField]
     private MenuHandler menuFade = null;
 
+    [SerializeField]
+    private GameObject appleAOE = null;
+
     private static MenuHandler menuFader = null;
     #endregion
 
@@ -99,6 +102,13 @@ public class GameManagerScript : MonoBehaviour
             playGameOver = false;
             StartCoroutine(ReloadScene());
         }
+
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 0, 10.0f);
+            Instantiate(appleAOE, mousePos, Quaternion.identity, this.transform);
+        }
     }
 
     private void OnDisable()
@@ -109,7 +119,7 @@ public class GameManagerScript : MonoBehaviour
 
     private void OnValidate()
     {
-        if(startingMoney < 0.0f)
+        if (startingMoney < 0.0f)
         {
             startingMoney = 0.0f;
         }

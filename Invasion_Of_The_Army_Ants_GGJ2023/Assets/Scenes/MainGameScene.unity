@@ -4908,6 +4908,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: 7f69a3d7829e709428c6b0454dd95659, type: 3}
     - target: {fileID: 3730697449321163040, guid: aac0179987e197c4c82924265c8fd835, type: 3}
+      propertyPath: appleAOE
+      value: 
+      objectReference: {fileID: 6065778028216751141, guid: ba929db04cde59e4e96ec86cef5f39e1, type: 3}
+    - target: {fileID: 3730697449321163040, guid: aac0179987e197c4c82924265c8fd835, type: 3}
       propertyPath: menuFade
       value: 
       objectReference: {fileID: 1500714414}
@@ -5030,6 +5034,42 @@ PrefabInstance:
     - target: {fileID: 3730697449321163054, guid: aac0179987e197c4c82924265c8fd835, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3730697449321163055, guid: aac0179987e197c4c82924265c8fd835, type: 3}
+      propertyPath: spawnPositions.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3730697449321163055, guid: aac0179987e197c4c82924265c8fd835, type: 3}
+      propertyPath: spawnPositions.Array.data[0].x
+      value: 8.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 3730697449321163055, guid: aac0179987e197c4c82924265c8fd835, type: 3}
+      propertyPath: spawnPositions.Array.data[0].y
+      value: -4.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 3730697449321163055, guid: aac0179987e197c4c82924265c8fd835, type: 3}
+      propertyPath: spawnPositions.Array.data[1].x
+      value: -9.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 3730697449321163055, guid: aac0179987e197c4c82924265c8fd835, type: 3}
+      propertyPath: spawnPositions.Array.data[1].y
+      value: 3.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 3730697449321163055, guid: aac0179987e197c4c82924265c8fd835, type: 3}
+      propertyPath: spawnPositions.Array.data[2].x
+      value: -8.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 3730697449321163055, guid: aac0179987e197c4c82924265c8fd835, type: 3}
+      propertyPath: spawnPositions.Array.data[2].y
+      value: -4.83
+      objectReference: {fileID: 0}
+    - target: {fileID: 3730697449321163055, guid: aac0179987e197c4c82924265c8fd835, type: 3}
+      propertyPath: spawnPositions.Array.data[3].x
+      value: 9.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 3730697449321163055, guid: aac0179987e197c4c82924265c8fd835, type: 3}
+      propertyPath: spawnPositions.Array.data[3].y
+      value: 2.87
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -5711,7 +5751,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

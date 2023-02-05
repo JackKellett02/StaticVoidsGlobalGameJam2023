@@ -18,6 +18,7 @@ public class MenuHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        fadeScreen.color = Color.black;
         StartCoroutine(startGame());
     }
 
