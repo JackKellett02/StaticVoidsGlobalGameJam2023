@@ -17,11 +17,16 @@ public class GameManagerScript : MonoBehaviour
     [SerializeField]
     private float startingMoney = 10.0f;
 
+	[Header("This multiplier makes the ants spawn more slowly when above 1.")]
     [SerializeField]
     private float spawnRateMult = 2.0f;
 
     [SerializeField]
     private int difficultyPlateuRound = 100;
+
+	[Header("This multiplier is a constant value that will affect the number of ants spawned each round determined normally by the difficulty curve.")]
+    [SerializeField]
+    private int numAntsMultiplier = 5;
 
     [SerializeField]
     private AnimationCurve spawnRateCurve;
@@ -30,7 +35,7 @@ public class GameManagerScript : MonoBehaviour
     private AudioManagerScript audioManager = null;
 
     [SerializeField]
-    private List<UIChangeInt> moneyStuff = new List<UIChangeInt>();
+    private List<UIChangeInt> roundStuff = new List<UIChangeInt>();
 
     [SerializeField]
     private SpringDynamics timerBar = null;
@@ -52,7 +57,7 @@ public class GameManagerScript : MonoBehaviour
 
     #region Private Variables.
     private static float moneyCount;
-    private static List<UIChangeInt> moneyStuff2;
+    private static List<UIChangeInt> roundStuff2;
     private int currentRound = 1;
 
     private static int timeBeforeNextRound = 0;
@@ -78,10 +83,12 @@ public class GameManagerScript : MonoBehaviour
         timeBeforeNextRound = (int)timeBetweenWaves;
         timerBarScale.currentBarValue = timeBeforeNextRound;
         moneyCount = startingMoney;
-        moneyStuff2 = moneyStuff;
-        moneyStuff[0].ChangeInt((int)moneyCount);
-        moneyStuff[1].ChangeInt((int)moneyCount);
-        currentRound = 1;
+        roundStuff2 = roundStuff;
+        //moneyStuff[0].ChangeInt((int)moneyCount);
+        //moneyStuff[1].ChangeInt((int)moneyCount);
+        currentRound = 0;
+        roundStuff[0].ChangeInt((int)currentRound);
+        roundStuff[1].ChangeInt((int)currentRound);
         timerBarScale.maxBarValue = timeBetweenWaves;
         menuFader = menuFade;
     }
@@ -130,14 +137,11 @@ public class GameManagerScript : MonoBehaviour
 
     private AntSpawnerScript.Wave GenerateWaveFromRoundNumber(int a_round)
     {
-        //Debug.Log("Round " + a_round);
         AntSpawnerScript.Wave wave;
-        wave.numAntsToSpawn = a_round * 5;
-
         float inverseRound = Mathf.Clamp01((float)a_round / (float)difficultyPlateuRound);
-        //Debug.Log("Inverse round " + inverseRound);
-        wave.spawnSpeed = spawnRateCurve.Evaluate(inverseRound) * spawnRateMult;
-        //Debug.Log("Wave spawn speed: " + wave.spawnSpeed);
+        float difficultyCurve = spawnRateCurve.Evaluate(inverseRound);
+        wave.spawnSpeed = difficultyCurve * spawnRateMult;
+        wave.numAntsToSpawn = a_round * (int)((1 / difficultyCurve) * numAntsMultiplier);
         //wave.numAntsToSpawn = int.MaxValue;
         //wave.spawnSpeed = 0.1f;
         return wave;
@@ -156,6 +160,11 @@ public class GameManagerScript : MonoBehaviour
 
         //Play music.
         StartCoroutine(audioManager.StartRoundMusic(true));
+
+        //Increment round counter.
+        currentRound++;
+        roundStuff[0].ChangeInt((int)currentRound);
+        roundStuff[1].ChangeInt((int)currentRound);
 
         //Fire off round starting event.
         roundStarting?.Invoke(this, EventArgs.Empty);
@@ -178,8 +187,8 @@ public class GameManagerScript : MonoBehaviour
         {
             //Add points to resources.
             moneyCount += resourcesPerAntKilled;
-            moneyStuff[0].ChangeInt((int)moneyCount);
-            moneyStuff[1].ChangeInt((int)moneyCount);
+            //moneyStuff[0].ChangeInt((int)moneyCount);
+            //moneyStuff[1].ChangeInt((int)moneyCount);
         }
         else
         {
@@ -190,8 +199,6 @@ public class GameManagerScript : MonoBehaviour
     private void OnRoundOver(object sender, EventArgs e)
     {
         //Debug.Log("Round " + currentRound + " over.");
-        //Increment round counter.
-        currentRound++;
 
         //Switch music.
         StartCoroutine(audioManager.StartRoundMusic(false));
@@ -219,8 +226,8 @@ public class GameManagerScript : MonoBehaviour
     public static void ReduceMoneyPlz(float money)
     {
         moneyCount = Mathf.Clamp(moneyCount - money, 0.0f, float.MaxValue);
-        moneyStuff2[0].ChangeInt((int)moneyCount);
-        moneyStuff2[1].ChangeInt((int)moneyCount);
+        //moneyStuff2[0].ChangeInt((int)moneyCount);
+        //moneyStuff2[1].ChangeInt((int)moneyCount);
     }
 
     public static void HandleGameOver()

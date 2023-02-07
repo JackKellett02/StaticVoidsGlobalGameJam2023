@@ -4956,11 +4956,23 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3730697449321163040, guid: aac0179987e197c4c82924265c8fd835, type: 3}
+      propertyPath: roundStuff.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3730697449321163040, guid: aac0179987e197c4c82924265c8fd835, type: 3}
       propertyPath: moneyStuff.Array.data[0]
       value: 
       objectReference: {fileID: 123228082}
     - target: {fileID: 3730697449321163040, guid: aac0179987e197c4c82924265c8fd835, type: 3}
       propertyPath: moneyStuff.Array.data[1]
+      value: 
+      objectReference: {fileID: 1525847740}
+    - target: {fileID: 3730697449321163040, guid: aac0179987e197c4c82924265c8fd835, type: 3}
+      propertyPath: roundStuff.Array.data[0]
+      value: 
+      objectReference: {fileID: 123228082}
+    - target: {fileID: 3730697449321163040, guid: aac0179987e197c4c82924265c8fd835, type: 3}
+      propertyPath: roundStuff.Array.data[1]
       value: 
       objectReference: {fileID: 1525847740}
     - target: {fileID: 3730697449321163040, guid: aac0179987e197c4c82924265c8fd835, type: 3}

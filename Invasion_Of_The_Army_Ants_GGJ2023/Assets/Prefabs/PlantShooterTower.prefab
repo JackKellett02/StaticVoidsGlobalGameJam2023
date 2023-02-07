@@ -130,7 +130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towerRange: 3
-  turnSpeed: 0.1
+  turnSpeed: 0.03
   firingRange: 0.99
   bulletSpeed: 3
   bulletsPerSec: 1
