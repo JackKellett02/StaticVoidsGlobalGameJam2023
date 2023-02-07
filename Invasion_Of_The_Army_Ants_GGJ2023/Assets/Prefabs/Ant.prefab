@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 0532be07e6d21f04e8d16bff815bd890, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -135,6 +135,7 @@ MonoBehaviour:
     baseHealth: 100
   antDmg: 5
   updateTargetCooldown: 1
+  turnSpeed: 0.5
   antSpeed: 0.5
   antRigidbody: {fileID: 491830238148448878}
   antSpriteTransform: {fileID: 491830238093599960}

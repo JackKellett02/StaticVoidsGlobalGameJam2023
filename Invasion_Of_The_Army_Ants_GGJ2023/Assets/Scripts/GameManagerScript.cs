@@ -21,6 +21,9 @@ public class GameManagerScript : MonoBehaviour
     private float spawnRateMult = 2.0f;
 
     [SerializeField]
+    private int difficultyPlateuRound = 100;
+
+    [SerializeField]
     private AnimationCurve spawnRateCurve;
 
     [SerializeField]
@@ -127,11 +130,14 @@ public class GameManagerScript : MonoBehaviour
 
     private AntSpawnerScript.Wave GenerateWaveFromRoundNumber(int a_round)
     {
+        //Debug.Log("Round " + a_round);
         AntSpawnerScript.Wave wave;
         wave.numAntsToSpawn = a_round * 5;
 
-        float inverseRound = a_round / 100;
+        float inverseRound = Mathf.Clamp01((float)a_round / (float)difficultyPlateuRound);
+        //Debug.Log("Inverse round " + inverseRound);
         wave.spawnSpeed = spawnRateCurve.Evaluate(inverseRound) * spawnRateMult;
+        //Debug.Log("Wave spawn speed: " + wave.spawnSpeed);
         //wave.numAntsToSpawn = int.MaxValue;
         //wave.spawnSpeed = 0.1f;
         return wave;
@@ -183,7 +189,7 @@ public class GameManagerScript : MonoBehaviour
 
     private void OnRoundOver(object sender, EventArgs e)
     {
-        Debug.Log("Round " + currentRound + " over.");
+        //Debug.Log("Round " + currentRound + " over.");
         //Increment round counter.
         currentRound++;
 

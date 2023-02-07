@@ -130,6 +130,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towerRange: 3
+  turnSpeed: 0.1
+  firingRange: 0.99
   bulletSpeed: 3
   bulletsPerSec: 1
   bulletPrefab: {fileID: 2719402544836661212, guid: edf99eafc8be40a43820b2984707d1c5, type: 3}

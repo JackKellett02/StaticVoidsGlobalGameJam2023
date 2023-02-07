@@ -2,118 +2,116 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShooterPlantScript : MonoBehaviour
-{
-    #region Variables to assign via the unity inspector (SerializeFields).
-    [SerializeField]
-    private float towerRange = 3.0f;
+public class ShooterPlantScript : MonoBehaviour {
+	#region Variables to assign via the unity inspector (SerializeFields).
+	[SerializeField]
+	private float towerRange = 3.0f;
 
-    [SerializeField]
-    private float bulletSpeed = 1.0f;
+	[SerializeField]
+	[Range(0.0f, 1.0f)]
+	private float turnSpeed = 0.5f;
 
-    [SerializeField]
-    private int bulletsPerSec = 2;
+	[Header("Make the firing range 1 to require the plant to be on target before shooting.")]
+	[SerializeField]
+	[Range(0.0f, 1.0f)]
+	private float firingRange = 0.5f;
 
-    [SerializeField]
-    private GameObject bulletPrefab;
+	[SerializeField]
+	private float bulletSpeed = 1.0f;
 
-    [SerializeField]
-    private Transform spriteTransform;
-    #endregion
+	[SerializeField]
+	private int bulletsPerSec = 2;
 
-    #region Private Variable Declarations.
-    private Vector3 targetPos = Vector3.zero;
+	[SerializeField]
+	private GameObject bulletPrefab;
 
-    private Vector3 targetPosLastFrame = Vector3.zero;
-    private bool coolingDown = false;
-    #endregion
+	[SerializeField]
+	private Transform spriteTransform;
+	#endregion
 
-    #region Private Functions.
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	#region Private Variable Declarations.
+	private Vector3 targetPos = Vector3.zero;
 
-    // Update is called once per frame
-    void Update()
-    {
-        //Find Targets.
-        targetPos = FindTarget();
+	private Vector3 targetPosLastFrame = Vector3.zero;
+	private bool coolingDown = false;
+	#endregion
 
-        //If the target pos has changed.
-        if (targetPos != targetPosLastFrame)
-        {
-            //Rotate the sprite towards the target.
-            spriteTransform.up = (targetPos - this.transform.position).normalized;
-            targetPosLastFrame = targetPos;
-        }
+	#region Private Functions.
+	// Start is called before the first frame update
+	void Start() {
 
-        //If the target is in range.
-        if (IsTargetInRange() && targetPos != Vector3.zero && !coolingDown)
-        {
-            //Spawn a bullet.
-            GameObject bullet = Instantiate(bulletPrefab, this.transform.position, Quaternion.identity, this.transform);
+	}
 
-            //Make it move towards the target.
-            bullet.GetComponent<Rigidbody>().velocity = spriteTransform.up * bulletSpeed;
-            bullet.transform.up = spriteTransform.up;
+	// Update is called once per frame
+	void Update() {
+		//Find Targets.
+		targetPos = FindTarget();
 
-            //Start cooldown.
-            coolingDown = true;
-            StartCoroutine(ShootCooldown());
-        }
-    }
+		//If the target is in range.
+		if (IsTargetInRange() && targetPos != Vector3.zero) {
+			//Rotate the sprite towards the target.
+			spriteTransform.up = Vector3.Lerp(spriteTransform.up, (targetPos - this.transform.position).normalized, turnSpeed);
 
-    private void OnDrawGizmos()
-    {
-        //Draw Range.
-        Gizmos.color = Color.black;
-        Gizmos.DrawWireSphere(this.transform.position, towerRange);
-    }
+			float dot = Vector3.Dot((targetPos - this.transform.position).normalized.normalized, spriteTransform.up);
+			if (!coolingDown && dot >= firingRange) {
+				//Spawn a bullet.
+				GameObject bullet = Instantiate(bulletPrefab, this.transform.position, Quaternion.identity, this.transform);
 
-    private IEnumerator ShootCooldown()
-    {
-        yield return new WaitForSeconds(1 / bulletsPerSec);
-        coolingDown = false;
-    }
+				//Make it move towards the target.
+				bullet.GetComponent<Rigidbody>().velocity = spriteTransform.up * bulletSpeed;
+				bullet.transform.up = spriteTransform.up;
 
-    private Vector3 FindTarget()
-    {
-        Vector3 returnVal = Vector3.zero;
-        GameObject[] ants = GameObject.FindGameObjectsWithTag("Ant");
-        //Find the smallest distance.
-        Vector3 towerPos = this.transform.position;
-        float smallestDistance = float.MaxValue;
-        int ival = 0;
-        for (int i = 0; i < ants.Length; i++)
-        {
-            //Get the distance between the ant and that defence point.
-            float newDistance = (ants[i].transform.position - towerPos).magnitude;
-            if (newDistance < smallestDistance)
-            {
-                smallestDistance = newDistance;
-                ival = i;
-                Rigidbody rb = ants[ival].GetComponent<Rigidbody>();
-                returnVal = ants[i].transform.position;
-                returnVal += rb.velocity;
-            }
-        }
+				//Start cooldown.
+				coolingDown = true;
+				StartCoroutine(ShootCooldown());
+			}
+		}
+	}
 
-        return returnVal;
-    }
+	private void OnDrawGizmos() {
+		//Draw Range.
+		Gizmos.color = Color.black;
+		Gizmos.DrawWireSphere(this.transform.position, towerRange);
+	}
 
-    private bool IsTargetInRange()
-    {
-        //Find the distance to the target.
-        float distance = (targetPos - this.transform.position).magnitude;
+	private IEnumerator ShootCooldown() {
+		yield return new WaitForSeconds(1 / bulletsPerSec);
+		coolingDown = false;
+	}
 
-        //Return whether or not it is in range.
-        return distance <= towerRange;
-    }
-    #endregion
+	private Vector3 FindTarget() {
+		Vector3 returnVal = Vector3.zero;
+		GameObject[] ants = GameObject.FindGameObjectsWithTag("Ant");
+		//Find the smallest distance.
+		Vector3 towerPos = this.transform.position;
+		Vector3 towerUp = this.transform.up;
+		float smallestDistance = float.MaxValue;
+		int ival = 0;
+		for (int i = 0; i < ants.Length; i++) {
+			//Get the distance between the ant and that defence point.
+			float newDistance = (ants[i].transform.position - towerPos).magnitude;
+			if (newDistance < smallestDistance) {
+				smallestDistance = newDistance;
+				ival = i;
+				Rigidbody rb = ants[ival].GetComponent<Rigidbody>();
+				returnVal = ants[i].transform.position;
+				returnVal += rb.velocity;
+			}
+		}
 
-    #region Public Access Functions.
+		return returnVal;
+	}
 
-    #endregion
+	private bool IsTargetInRange() {
+		//Find the distance to the target.
+		float distance = (targetPos - this.transform.position).magnitude;
+
+		//Return whether or not it is in range.
+		return distance <= towerRange;
+	}
+	#endregion
+
+	#region Public Access Functions.
+
+	#endregion
 }

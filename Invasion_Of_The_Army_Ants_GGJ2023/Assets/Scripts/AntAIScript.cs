@@ -17,6 +17,10 @@ public class AntAIScript : MonoBehaviour
     private float updateTargetCooldown = 1.0f;
 
     [SerializeField]
+    [Range(0.0f, 1.0f)]
+    private float turnSpeed = 0.5f;
+
+    [SerializeField]
     [Range(0.0f, 20.0f)]
     private float antSpeed = 1.0f;
 
@@ -67,7 +71,7 @@ public class AntAIScript : MonoBehaviour
         if (canMove)
         {
             //Rotate the sprite towards the target.
-            antSpriteTransform.up = (targetPos - this.transform.position).normalized;
+            antSpriteTransform.up = Vector3.Lerp(antSpriteTransform.up, (targetPos - this.transform.position).normalized, turnSpeed);
 
             //Set the velocity.
             antRigidbody.velocity = (antSpriteTransform.up * antSpeed);
@@ -127,7 +131,7 @@ public class AntAIScript : MonoBehaviour
 
     private void DeleteAnt()
     {
-        Debug.Log("Ant Deleted");
+        //Debug.Log("Ant Deleted");
         //Give currency to the user.
 
         //Invoke death event.

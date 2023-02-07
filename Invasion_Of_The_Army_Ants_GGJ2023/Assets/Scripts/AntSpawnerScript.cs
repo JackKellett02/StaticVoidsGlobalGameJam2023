@@ -78,7 +78,7 @@ public class AntSpawnerScript : MonoBehaviour
     {
         Debug.Log("Wave Started");
         waveInfo = a_waveInfo;
-        Debug.Log("Spawning " + waveInfo.numAntsToSpawn + " ants.");
+        //Debug.Log("Spawning " + waveInfo.numAntsToSpawn + " ants.");
         spawnAnt = true;
     }
     #endregion

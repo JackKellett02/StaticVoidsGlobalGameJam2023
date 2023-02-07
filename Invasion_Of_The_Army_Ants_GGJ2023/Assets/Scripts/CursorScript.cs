@@ -29,7 +29,7 @@ public class CursorScript : MonoBehaviour
         ShooterPlantFollowMouse.ShowPlant(false);
         cursorShadow.enabled = false;
         cursor.enabled = false;
-        Debug.Log(startPos);
+        //Debug.Log(startPos);
     }
 
     // Update is called once per frame
