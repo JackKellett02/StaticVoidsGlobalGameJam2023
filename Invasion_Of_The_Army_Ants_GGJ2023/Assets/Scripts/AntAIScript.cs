@@ -43,10 +43,17 @@ public class AntAIScript : MonoBehaviour
     public static event EventHandler<AntInfo> antKilled;
     #endregion
 
-    #region private functions.
+    #region Events.
+    public static EventHandler antSpawned;
+	#endregion
+	#region private functions.
 
-    // Start is called before the first frame update
-    void Start()
+	private void Awake() {
+        antSpawned?.Invoke(this, EventArgs.Empty);
+	}
+
+	// Start is called before the first frame update
+	void Start()
     {
         //Set up health script.
         health.OnStart();

@@ -19,7 +19,7 @@ public class AntSpawnerScript : MonoBehaviour
     #endregion
 
     #region Events.
-    public static EventHandler roundOver;
+
     #endregion
 
     #region Private Functions.
@@ -39,7 +39,6 @@ public class AntSpawnerScript : MonoBehaviour
             if (waveInfo.numAntsToSpawn <= 0)
             {
                 spawnAnt = false;
-                roundOver?.Invoke(this, EventArgs.Empty);
                 return;
             }
             StartCoroutine(SpawnAntsCooldown(waveInfo.spawnSpeed));

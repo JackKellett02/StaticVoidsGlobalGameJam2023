@@ -4932,6 +4932,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1327938146}
     - target: {fileID: 3730697449321163040, guid: aac0179987e197c4c82924265c8fd835, type: 3}
+      propertyPath: spawnRateMult
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3730697449321163040, guid: aac0179987e197c4c82924265c8fd835, type: 3}
       propertyPath: startingMoney
       value: 20
       objectReference: {fileID: 0}
